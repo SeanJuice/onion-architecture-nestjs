@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateTodoDTO } from '../../application/dtos/toto.dto';
-
+import { Department } from '../entities';
 // Creates a Todo interface to show exactly the attribute of our Todo
 interface Todo {
   readonly id: number;
@@ -12,6 +12,10 @@ interface Todo {
 @Injectable()
 export class TodoService {
 
+  constructor(
+
+  ) {}
+
 // Creates a Todo array with one Todo
   private todos: Todo[] = [
     {
@@ -21,6 +25,11 @@ export class TodoService {
       isDone: true,
     },
   ];
+
+  // async findAllDeparments(): Promise<Department[]> {
+  //   console.log("heree")
+  //   return this.DepartmentRepository.findAll<Department>();
+  // }
 
 // Creates a new todo (Add todo to array)
   async addTodo(createTodoDTO: CreateTodoDTO): Promise<Todo> {

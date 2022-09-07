@@ -1,26 +1,4 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ## Description
 
@@ -58,16 +36,51 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+## Instruction on Usage (adding a feature)
+ [NB] *adding new class in any directory, add the export in barrelfile (index.ts)*
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+  [Part 1]
+    - 1: create entity in prisma , run migrations and update Prisma cleint ( check Database below)
+    - 2: create repository in infrastructure > repositoru inherit from baserepository
+    - 3: create feature module in domain > modules
+    - 4: add feature module in infrastructure > modules > app.module.ts 
+    - 5: import repository in *providers* on  feature module at 4 
+    - 6: create service in domain > services  import services in providers at 4
+    - 5: create entities/interfaces  needed if needed  in domain > services
+    - 7: inject repository in services and call functions in the repository
 
-## Stay in touch
+  [Part 2]
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+    - 8: create controller in application > controllers
+    - 9: add controller to feature module *controllers* in 4
+    - 10: import service needed
+    - 11: create end points in the controller 
+    - 12: create DTO's inside appliciton > dtos
+    - 13: use DTO in controllers
 
-## License
 
-Nest is [MIT licensed](LICENSE).
+
+# Database
+ - Change database in prisma schema ( add or delete or modify database)
+ - Migration 
+   > npx prisma migrate dev --name NameOfTheMigration
+ - After running migration Sync with PrismaClient
+   > npx  prisma generate
+
+# Architecture
+** Onion Architecture**
+The Onion architecture is a form of layered architecture and we can visualize these layers as concentric circles. Hence the name Onion architecture. The Onion architecture was first introduced by Jeffrey Palermo, to overcome the issues of the traditional N-layered architecture approach.
+
+There are multiple ways that we can split the onion, but we are going to choose the following approach where we are going to split the architecture into 4 layers:
+      Domain Layer
+      Service Layer
+      Infrastructure Layer
+      Presentation/Application Layer
+
+Link:
+  [Architecture Read 1](https://code-maze.com/onion-architecture-in-aspnetcore/ )
+  [Architecture Read 2](  https://www.linkedin.com/pulse/onion-architecture-aka-clean-santosh-poojari/?trk=articles_directory )
+
+
+
+

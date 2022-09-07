@@ -10,6 +10,25 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "paths": {
+      "@applicationLayer|controllers": ["src/application/controllers/index"],
+      "@applicationLayer|dtos": ["src/application/dtos/index"],
+      // "@applicationlayer|controllers/*": ["src/application/****/*"]
+
+      "@domainLayer|entities": ["src/application/entities/index"],
+      "@domainLayer|enums": ["src/application/enums/index"],
+      "@domainLayer|helpers": ["src/application/helpers/index"],
+      "@domainLayer|providers": ["src/application/providers/index"],
+      "@domainLayer|services": ["src/application/providers/index"],
+      "@domainLayer|modules": ["src/application/modules/index"],
+      // "@domainLayer|services/*": ["src/application/***/*"],
+
+      "@infrastructureLayer|config": ["src/infrastructure/config/index"],
+      "@infrastructureLayer|database": ["src/infrastructure/database/index"],
+      "@infrastructureLayer|repositories": ["src/infrastructure/config/index"],
+      "@infrastructureLayer|modules": ["src/infrastructure/modules/index"],
+      // "@infrastructureLayer|modules/*": ["src/infrastructure/***/*"],
+     },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,

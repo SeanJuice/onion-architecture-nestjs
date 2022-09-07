@@ -8,14 +8,42 @@ Body,
 Put,
 Query,
 Delete,
-Post } from '@nestjs/common';
+Post, 
+Logger} from '@nestjs/common';
 import { CreateTodoDTO } from '../dtos/toto.dto';
 import { TodoService } from '../../domain/services/todo.service';
+import { UserService } from 'src/domain/services';
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
+
 @Controller('todos')
 
 export class TodoController {
-    constructor(private todoService: TodoService) {}
+    constructor(private todoService: TodoService, private userService: UserService) {
+
+      
+    }
   
+    @Get('/getAllUsers')
+    async getAllUsers() {
+      let todo;
+      todo =  this.userService.getUserAllUsers()
+      if (!todo) {
+        throw new NotFoundException('Todo does not exist!');
+      }
+      return todo
+    }
+
+    @Get('/numberOfUsers')
+    async numberOfUsers() {
+      let todo;
+      todo =  this.userService.count()
+      if (!todo) {
+        throw new NotFoundException('Todo does not exist!');
+      }
+      return todo
+    }
+
     // Create a todo
     @Post('/')
     async create(@Res() res, @Body() createTodoDTO: CreateTodoDTO) {
@@ -35,6 +63,8 @@ export class TodoController {
       }
       return res.status(HttpStatus.OK).json(todo);
     }
+
+
   
     // Fetch all todos
     @Get('/')

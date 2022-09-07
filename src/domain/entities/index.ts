@@ -1,1 +1,1 @@
-// export * from './movie.schema';
+export * from './department.model';
