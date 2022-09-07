@@ -40,6 +40,7 @@ $ npm run test:cov
  [NB] *adding new class in any directory, add the export in barrelfile (index.ts)*
 
   [Part 1]
+  
     - 1: create entity in prisma , run migrations and update Prisma cleint ( check Database below)
     - 2: create repository in infrastructure > repositoru inherit from baserepository
     - 3: create feature module in domain > modules
