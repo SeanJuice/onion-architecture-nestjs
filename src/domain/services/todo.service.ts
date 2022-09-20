@@ -1,6 +1,5 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateTodoDTO } from '../../application/dtos/toto.dto';
-import { Department } from '../entities';
 // Creates a Todo interface to show exactly the attribute of our Todo
 interface Todo {
   readonly id: number;
@@ -11,12 +10,9 @@ interface Todo {
 
 @Injectable()
 export class TodoService {
+  constructor() {}
 
-  constructor(
-
-  ) {}
-
-// Creates a Todo array with one Todo
+  // Creates a Todo array with one Todo
   private todos: Todo[] = [
     {
       id: 1,
@@ -31,35 +27,35 @@ export class TodoService {
   //   return this.DepartmentRepository.findAll<Department>();
   // }
 
-// Creates a new todo (Add todo to array)
+  // Creates a new todo (Add todo to array)
   async addTodo(createTodoDTO: CreateTodoDTO): Promise<Todo> {
     this.todos.push(createTodoDTO);
 
-// return last added item
+    // return last added item
     return this.todos.at(-1);
   }
 
-// Returns a single todo with ID
+  // Returns a single todo with ID
   async getTodo(todoID: number): Promise<Todo> {
     const post = this.todos.find((todo) => todo.id === todoID);
     return post;
   }
 
-// Returns all todos available
+  // Returns all todos available
   async getTodos(): Promise<Todo[]> {
     return this.todos;
   }
 
-// Deletes a todo by ID and add a new one (Update process)
+  // Deletes a todo by ID and add a new one (Update process)
   async editTodo(postID: number, createTodoDTO: CreateTodoDTO): Promise<Todo> {
     await this.deleteTodo(postID);
     this.todos.push(createTodoDTO);
 
-// return last added item
+    // return last added item
     return this.todos.at(-1);
   }
 
-// Deletes a todo from the array
+  // Deletes a todo from the array
   async deleteTodo(todoID: number): Promise<any> {
     const todoIndex = this.todos.findIndex((todo) => todo.id === todoID);
     return this.todos.splice(todoIndex, 1);

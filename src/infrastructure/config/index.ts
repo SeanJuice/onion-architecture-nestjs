@@ -1,1 +1,1 @@
-// export * from './env.objects';
+export { mailInfo } from './env.email';

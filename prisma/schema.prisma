@@ -6,21 +6,28 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlserver"
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  Int?
-}
+
 model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
-  name  String?
-  posts Post[]
+  name  String? 
+  surname String
+  phoneNumber Int
+  password String
+  role  Role?  @relation(fields: [roleId], references: [id])  //one role Id
+  roleId Int @default(1)
+  createdAt  DateTime   @default(now())
+  authConfirmToken Int?
+  isVarrified Boolean? @default(false)
 }
+
+model Role {
+  id     Int    @id @default(autoincrement())
+  description    String
+  user User[] //can belong to may users
+}
+

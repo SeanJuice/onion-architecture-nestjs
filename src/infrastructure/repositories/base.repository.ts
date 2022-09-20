@@ -1,44 +1,16 @@
-import { plainToClass } from 'class-transformer';
-import { Post, Prisma, PrismaClient, User } from '@prisma/client';
-import { Logger } from '@nestjs/common';
-
 export class BaseRepository<T, K> {
-  repository:any;
+  repository: any;
 
   constructor(protected _repository: T) {
-     this.repository = _repository;
-  }
-
-  async getAll(){
-
-      return this.repository.findMany();
-    
-  }
-
-  async count(): Promise<number> {
-    return await this.repository.count();
-  }
-
-
-
-  async findById(_id: any) {
-    const data = await this.repository.findUnique({
-      where: {
-        id: _id,
-      },
-    });
-    if (!data) return null;
-
-    return data;
-  }
-
-  async delete(query: any) {
-    const data = await this.repository.delete(query);
-    return data;
+    this.repository = _repository;
   }
 
   async create(data: any): Promise<K> {
-    let profile: K = this.repository.create(data);
+    let profile: K = this.repository.create({
+      data: {
+        ...data,
+      },
+    });
     return profile;
   }
 
@@ -48,10 +20,40 @@ export class BaseRepository<T, K> {
     });
   }
 
-  async update(query: any, updateBody: any): Promise<K> {
+  async getAll() {
+    return this.repository.findMany();
+  }
+
+  async count(): Promise<number> {
+    return await this.repository.count();
+  }
+
+  async findById(...args) {
+    const data = await this.repository.findUnique({
+      where: {
+        ...args,
+      },
+    });
+    if (!data) return null;
+
+    return data;
+  }
+
+  async findManyById(...args) {
+    const data = await this.repository.findMany({
+      where: {
+        ...args,
+      },
+    });
+    if (!data) return null;
+
+    return data;
+  }
+
+  async update(_id: number, updateBody: any): Promise<K> {
     const saved: K = await this.repository.update({
       where: {
-        id: query.id,
+        id: _id,
       },
       data: {
         ...updateBody,
@@ -59,5 +61,14 @@ export class BaseRepository<T, K> {
     });
 
     return saved;
+  }
+
+  async delete(_id: number) {
+    const data = await this.repository.delete({
+      where: {
+        id: _id,
+      },
+    });
+    return data;
   }
 }
